@@ -1,0 +1,5 @@
+◇ injected env (5) from .env // tip: ◈ encrypted .env [www.dotenvx.com]
+Attempting to connect to MongoDB...
+🚀 Server is running on port 5000
+👉 Visit: http://localhost:5000
+✅ MongoDB Connected successfully!
