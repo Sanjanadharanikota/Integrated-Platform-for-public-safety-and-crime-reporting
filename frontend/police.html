@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Police Control Panel | SafetyFirst</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .sidebar { background: #071221; } /* Darker for Police */
+        .police-header {
+            background: #112240;
+            color: white;
+            padding: 20px;
+            border-radius: var(--radius-md);
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+    <!-- Sidebar Navigation -->
+    <div class="sidebar d-none d-lg-block">
+        <div class="text-center mb-5">
+            <h3 class="text-white">👮 SafetyFirst</h3>
+            <small class="text-uppercase" style="color: var(--danger-red); font-size: 0.7rem; letter-spacing: 1px;">Law Enforcement Console</small>
+        </div>
+        
+        <nav class="nav flex-column gap-2">
+            <a class="nav-link text-white bg-primary p-3 rounded" href="police.html"><i class="bi bi-list-check me-2"></i> Manage Reports</a>
+            <a class="nav-link text-white-50 p-3" href="map.html"><i class="bi bi-geo-alt me-2"></i> Area Map</a>
+            <a class="nav-link text-white-50 p-3" href="#"><i class="bi bi-exclamation-octagon me-2"></i> Emergency Alerts</a>
+            <a class="nav-link text-white-50 p-3" href="#"><i class="bi bi-archive me-2"></i> Archive</a>
+            <hr class="border-secondary mt-5">
+            <a class="nav-link text-danger p-3" href="#" onclick="handleLogout()"><i class="bi bi-box-arrow-left me-2"></i> Logout</a>
+        </nav>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <header class="police-header d-flex justify-content-between align-items-center fade-in">
+            <div>
+                <h4 class="mb-1">Control Room Dashboard</h4>
+                <p class="mb-0 text-white-50">Welcome, Officer <strong>John Wilson</strong> (ID: #4820)</p>
+            </div>
+            <div class="text-end">
+                <div class="small mb-1">Station Status</div>
+                <span class="badge bg-danger pulse-red px-3"><i class="bi bi-broadcast me-1"></i> 2 Critical Alerts</span>
+            </div>
+        </header>
+
+        <!-- Stats Bar -->
+        <div class="row g-3 mb-4 fade-in">
+            <div class="col-md-3">
+                <div class="card p-3 border-0 shadow-sm">
+                    <small class="text-muted">Logged Today</small>
+                    <h3 class="mb-0">24</h3>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card p-3 border-0 shadow-sm border-start border-4 border-danger">
+                    <small class="text-muted">High Priority</small>
+                    <h3 class="mb-0 text-danger">06</h3>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card p-3 border-0 shadow-sm">
+                    <small class="text-muted">On-Site Teams</small>
+                    <h3 class="mb-0">04</h3>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card p-3 border-0 shadow-sm">
+                    <small class="text-muted">Avg. Response</small>
+                    <h3 class="mb-0">12 min</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Urgent SOS Alerts Section (New) -->
+        <div id="urgentAlertsContainer" class="mb-5 fade-in" style="display: none;">
+            <div class="alert alert-danger border-0 shadow-sm d-flex justify-content-between align-items-center p-4">
+                <div>
+                    <h5 class="alert-heading fw-bold mb-1"><i class="bi bi-exclamation-triangle-fill me-2 pulse-red"></i> LIVE EMERGENCY SOS ALERTS</h5>
+                    <p class="mb-0 small">Immediate response required for the following citizens.</p>
+                </div>
+                <span class="badge bg-danger pulse-red px-3" id="alertCountBadge">0 Active</span>
+            </div>
+            <div class="row g-3" id="urgentAlertsList">
+                <!-- SOS cards will appear here -->
+            </div>
+        </div>
+
+        <!-- Management Table -->
+        <div class="card border-0 shadow-sm rounded fade-in">
+            <div class="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 fw-bold">Incoming Crime Reports</h5>
+                <div class="d-flex gap-2">
+                    <input type="text" id="reportSearch" class="form-control form-control-sm" placeholder="Search ID or Location..." onkeyup="filterReports()">
+                    <select id="priorityFilter" class="form-select form-select-sm" onchange="filterReports()">
+                        <option value="">All Priorities</option>
+                        <option value="High">High Only</option>
+                        <option value="Medium">Medium Only</option>
+                        <option value="Low">Low Only</option>
+                    </select>
+                </div>
+            </div>
+            <div class="table-responsive p-3">
+                <table class="table table-hover align-middle">
+                    <thead class="bg-light">
+                        <tr>
+                            <th>Report ID</th>
+                            <th>Reporter</th>
+                            <th>Incident</th>
+                            <th>Location</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="policeReportTable">
+                        <tr>
+                            <td><strong>#SF-9921</strong></td>
+                            <td>Michael Ross</td>
+                            <td>Armed Robbery</td>
+                            <td>Baker Street 221B</td>
+                            <td><span class="badge badge-priority-high rounded-pill px-3">High</span></td>
+                            <td><span class="badge bg-danger-subtle text-danger rounded-pill px-3">Unassigned</span></td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-light btn-sm dropdown-toggle" data-bs-toggle="dropdown">Action</button>
+                                    <ul class="dropdown-menu shadow">
+                                        <li><a class="dropdown-item" href="#"><i class="bi bi-eye me-2"></i> View Full Details</a></li>
+                                        <li><a class="dropdown-item text-primary" href="#"><i class="bi bi-person-plus me-2"></i> Assign Force</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item text-success" href="#"><i class="bi bi-check-circle me-2"></i> Mark Resolved</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>#SF-9915</strong></td>
+                            <td>Sarah Connor</td>
+                            <td>Vehicle Theft</td>
+                            <td>Industrial Sector</td>
+                            <td><span class="badge badge-priority-medium rounded-pill px-3">Medium</span></td>
+                            <td><span class="badge bg-warning-subtle text-warning rounded-pill px-3">Investigating</span></td>
+                            <td><button class="btn btn-light btn-sm" onclick="alert('Viewing Report #SF-9915')">Details</button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>#SF-9882</strong></td>
+                            <td>Unknown</td>
+                            <td>Public Nuisance</td>
+                            <td>Old Town Square</td>
+                            <td><span class="badge badge-priority-low rounded-pill px-3">Low</span></td>
+                            <td><span class="badge bg-success-subtle text-success rounded-pill px-3">Resolved</span></td>
+                            <td><button class="btn btn-light btn-sm">Details</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

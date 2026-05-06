@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Register | SafetyFirst</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0a192f 0%, #112240 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
+        }
+
+        .input-group-text {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            color: var(--accent-blue);
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            color: white !important;
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-blue);
+            box-shadow: none;
+        }
+
+        .nav-pills .nav-link {
+            color: white;
+            border-radius: var(--radius-sm);
+            padding: 10px 30px;
+        }
+
+        .nav-pills .nav-link.active {
+            background-color: var(--safety-blue);
+        }
+
+        .role-selector {
+            background: rgba(100, 255, 218, 0.1);
+            border: 1px dashed var(--accent-blue);
+            padding: 15px;
+            border-radius: var(--radius-md);
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-container fade-in">
+        <div class="text-center mb-4">
+            <h1 class="text-white">👮 SafetyFirst</h1>
+            <p class="text-muted">Integrated Crime Reporting Platform</p>
+        </div>
+
+        <div class="glass-card p-4 text-white">
+            <!-- Tabs for Login/Register -->
+            <ul class="nav nav-pills nav-justified mb-4" id="authTabs" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active" id="login-tab" data-bs-toggle="pill" data-bs-target="#login" type="button">Login</button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" id="register-tab" data-bs-toggle="pill" data-bs-target="#register" type="button">Register</button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="authTabContent">
+                <!-- Login Pane -->
+                <div class="tab-pane fade show active" id="login" role="tabpanel">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label class="form-label small">Email Address</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                <input type="email" id="loginEmail" class="form-control" placeholder="name@example.com" required>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label small">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary-custom w-100 mb-3">Login to Dashboard</button>
+                        <div class="text-center">
+                            <a href="#" class="text-decoration-none small text-white-50">Forgot Password?</a>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Register Pane -->
+                <div class="tab-pane fade" id="register" role="tabpanel">
+                    <form id="registerForm">
+                        <div class="mb-3">
+                            <label class="form-label small">Full Name</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                <input type="text" id="regName" class="form-control" placeholder="John Doe" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small">Email Address</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                <input type="email" id="regEmail" class="form-control" placeholder="name@example.com" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small">Role</label>
+                            <select id="regRole" class="form-select bg-dark text-white border-secondary" style="background: rgba(255,255,255,0.05);">
+                                <option value="Citizen">Citizen</option>
+                                <option value="Police">Police Officer</option>
+                                <option value="Admin">Administrator</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label small">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                <input type="password" id="regPassword" class="form-control" placeholder="Create a password" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary-custom w-100">Create Account</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="index.html" class="text-white-50 text-decoration-none small"><i class="bi bi-arrow-left"></i> Back to Home</a>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Handle Login Submission
+        document.getElementById('loginForm').onsubmit = (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const pass = document.getElementById('loginPassword').value;
+            handleLogin(email, pass);
+        };
+
+        // Handle Register Submission
+        document.getElementById('registerForm').onsubmit = (e) => {
+            e.preventDefault();
+            const userData = {
+                name: document.getElementById('regName').value,
+                email: document.getElementById('regEmail').value,
+                role: document.getElementById('regRole').value,
+                password: document.getElementById('regPassword').value
+            };
+            handleRegister(userData);
+        };
+    </script>
+</body>
+</html>

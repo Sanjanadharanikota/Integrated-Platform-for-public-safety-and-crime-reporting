@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard | SafetyFirst</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-light">
+
+    <!-- Sidebar Navigation -->
+    <div class="sidebar d-none d-lg-block">
+        <div class="text-center mb-5">
+            <h3 class="text-white">👮 SafetyFirst</h3>
+            <small class="text-accent" style="color: var(--accent-blue);">Public Safety Portal</small>
+        </div>
+        
+        <nav class="nav flex-column gap-2">
+            <a class="nav-link text-white bg-primary p-3 rounded" href="dashboard.html"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a>
+            <a class="nav-link text-white-50 p-3" href="report.html"><i class="bi bi-megaphone me-2"></i> Report Crime</a>
+            <a class="nav-link text-white-50 p-3" href="map.html"><i class="bi bi-map me-2"></i> Crime Map</a>
+            <a class="nav-link text-white-50 p-3" href="#"><i class="bi bi-bell me-2"></i> Notifications</a>
+            <a class="nav-link text-white-50 p-3" href="#"><i class="bi bi-person me-2"></i> Profile Settings</a>
+            <hr class="border-secondary mt-5">
+            <a class="nav-link text-danger p-3" href="#" onclick="handleLogout()"><i class="bi bi-box-arrow-left me-2"></i> Logout</a>
+        </nav>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Top Navbar for Mobile/User Info -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4 rounded px-3 d-lg-none">
+            <a class="navbar-brand" href="#">SafetyFirst</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </nav>
+
+        <header class="d-flex justify-content-between align-items-center mb-5 fade-in">
+            <div>
+                <h2 class="fw-bold">Welcome back, Citizen! 👋</h2>
+                <p class="text-muted">Here is what is happening in your area today.</p>
+            </div>
+            <div class="d-none d-md-block">
+                <span class="badge bg-success-subtle text-success p-2 rounded-pill"><i class="bi bi-shield-check me-1"></i> Area Status: Secure</span>
+            </div>
+        </header>
+
+        <!-- Stats Grid -->
+        <div class="row g-4 mb-5 fade-in">
+            <div class="col-md-4">
+                <div class="card card-stat">
+                    <div class="d-flex justify-content-between mb-3">
+                        <div class="bg-primary-subtle p-3 rounded text-primary"><i class="bi bi-file-earmark-text fs-4"></i></div>
+                        <div class="text-end">
+                            <h3 class="fw-bold mb-0">12</h3>
+                            <small class="text-muted">Total Reports</small>
+                        </div>
+                    </div>
+                    <div class="progress" style="height: 6px;">
+                        <div class="progress-bar bg-primary" style="width: 70%"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-stat">
+                    <div class="d-flex justify-content-between mb-3">
+                        <div class="bg-danger-subtle p-3 rounded text-danger"><i class="bi bi-exclamation-triangle fs-4"></i></div>
+                        <div class="text-end">
+                            <h3 class="fw-bold mb-0">02</h3>
+                            <small class="text-muted">High Priority</small>
+                        </div>
+                    </div>
+                    <div class="progress" style="height: 6px;">
+                        <div class="progress-bar bg-danger" style="width: 25%"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card card-stat">
+                    <div class="d-flex justify-content-between mb-3">
+                        <div class="bg-success-subtle p-3 rounded text-success"><i class="bi bi-check2-circle fs-4"></i></div>
+                        <div class="text-end">
+                            <h3 class="fw-bold mb-0">08</h3>
+                            <small class="text-muted">Resolved</small>
+                        </div>
+                    </div>
+                    <div class="progress" style="height: 6px;">
+                        <div class="progress-bar bg-success" style="width: 65%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Charts -->
+        <div class="row g-4 mb-5 fade-in">
+            <div class="col-md-7">
+                <div class="card border-0 shadow-sm p-4 h-100">
+                    <h6 class="fw-bold mb-4">Crimes by Category (Last 30 Days)</h6>
+                    <div style="height: 300px;">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="card border-0 shadow-sm p-4 h-100">
+                    <h6 class="fw-bold mb-4">Status Overview</h6>
+                    <div style="height: 300px;">
+                        <canvas id="statusChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card border-0 shadow-sm rounded fade-in">
+            <div class="card-header bg-white py-3 border-0 d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 fw-bold">Recent Incident Reports</h5>
+                <a href="report.html" class="btn btn-primary-custom btn-sm">Report New Crime</a>
+            </div>
+            <div class="table-responsive p-3">
+                <table class="table table-hover align-middle">
+                    <thead class="bg-light">
+                        <tr>
+                            <th>Report ID</th>
+                            <th>Incident</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Priority</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>#SF-4821</strong></td>
+                            <td>
+                                <div>Shoplifting</div>
+                                <small class="text-muted">Main St. Mall</small>
+                            </td>
+                            <td>Oct 12, 2023</td>
+                            <td><span class="badge bg-info-subtle text-info rounded-pill px-3">Investigating</span></td>
+                            <td><span class="badge badge-priority-high rounded-pill px-3">High</span></td>
+                            <td><button class="btn btn-light btn-sm"><i class="bi bi-eye"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>#SF-4790</strong></td>
+                            <td>
+                                <div>Vandalism</div>
+                                <small class="text-muted">City Park Wall</small>
+                            </td>
+                            <td>Oct 10, 2023</td>
+                            <td><span class="badge bg-success-subtle text-success rounded-pill px-3">Resolved</span></td>
+                            <td><span class="badge badge-priority-low rounded-pill px-3">Low</span></td>
+                            <td><button class="btn btn-light btn-sm"><i class="bi bi-eye"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td><strong>#SF-4752</strong></td>
+                            <td>
+                                <div>Stolen Bicycle</div>
+                                <small class="text-muted">22nd Avenue</small>
+                            </td>
+                            <td>Oct 08, 2023</td>
+                            <td><span class="badge bg-warning-subtle text-warning rounded-pill px-3">Pending</span></td>
+                            <td><span class="badge badge-priority-medium rounded-pill px-3">Medium</span></td>
+                            <td><button class="btn btn-light btn-sm"><i class="bi bi-eye"></i></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

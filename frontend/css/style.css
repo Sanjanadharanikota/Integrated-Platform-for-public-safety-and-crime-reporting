@@ -1,0 +1,369 @@
+/* frontend/css/style.css */
+
+/* 1. Global Variables & Design Tokens */
+:root {
+    /* Primary Colors (Navy & Safety Blue) */
+    --primary-navy: #0a192f;
+    --primary-blue: #112240;
+    --accent-blue: #64ffda;
+    --safety-blue: #3a86ff;
+    
+    /* Semantic Colors */
+    --danger-red: #ff4d4d;
+    --warning-amber: #ffbe0b;
+    --success-green: #06d6a0;
+    
+    /* Backgrounds */
+    --bg-light: #f8f9fa;
+    --bg-dark: #0a192f;
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    
+    /* Typography */
+    --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+    
+    /* Spacing & Borders */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+}
+
+/* 2. Global Reset & Typography */
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-light);
+    color: var(--primary-navy);
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+h1, h2, h3, h4, .navbar-brand {
+    font-weight: 700;
+}
+
+/* 3. Glassmorphism Design System */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.glass-navbar {
+    background: rgba(10, 25, 47, 0.85); /* Dark Navy Glass */
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--glass-border);
+}
+
+/* 4. Layout Utilities */
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    background: var(--primary-navy);
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.main-content {
+    margin-left: 260px;
+    padding: 40px;
+    min-height: 100vh;
+}
+
+/* 5. Components */
+.btn-primary-custom {
+    background-color: var(--safety-blue);
+    border: none;
+    color: white;
+    padding: 12px 24px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.btn-primary-custom:hover {
+    transform: translateY(-2px);
+    background-color: #2a75e6;
+}
+
+.card-stat {
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 24px;
+    background: white;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+}
+
+.card-stat:hover {
+    transform: translateY(-5px);
+}
+
+/* 6. Animations */
+@keyframes pulse-red {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.7); }
+    70% { transform: scale(1.1); box-shadow: 0 0 0 15px rgba(255, 77, 77, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 77, 77, 0); }
+}
+
+.emergency-pulse {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: var(--danger-red);
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(255, 77, 77, 0.5);
+    animation: pulse-red 2s infinite;
+    z-index: 9999;
+}
+
+/* 6.1 Notification UI */
+.nav-notifications {
+    position: relative;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background: var(--danger-red);
+    color: white;
+    font-size: 0.65rem;
+    padding: 2px 6px;
+    border-radius: 50%;
+    border: 2px solid var(--primary-navy);
+}
+
+.notification-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 320px;
+    max-height: 400px;
+    overflow-y: auto;
+    background: white;
+    border-radius: var(--radius-md);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    display: none;
+    z-index: 10000;
+    margin-top: 10px;
+}
+
+.notification-dropdown.active {
+    display: block;
+}
+
+.notification-item {
+    padding: 15px;
+    border-bottom: 1px solid #f1f1f1;
+    transition: background 0.2s;
+}
+
+.notification-item:hover {
+    background: #f8f9fa;
+}
+
+.notification-item.unread {
+    background: rgba(58, 134, 255, 0.05);
+}
+
+.notification-item h6 {
+    font-size: 0.9rem;
+    margin-bottom: 3px;
+    font-weight: 700;
+}
+
+.notification-item p {
+    font-size: 0.8rem;
+    color: #666;
+    margin-bottom: 0;
+}
+
+.fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 7. Priority Badges */
+.badge-priority-high { background-color: var(--danger-red); }
+.badge-priority-medium { background-color: var(--warning-amber); color: black; }
+.badge-priority-low { background-color: var(--success-green); }
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .sidebar { left: -260px; }
+    .main-content { margin-left: 0; }
+    .sidebar.active { left: 0; }
+}
+
+/* 8. Loading Spinner Overlay */
+#loader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(5px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    flex-direction: column;
+}
+
+.spinner-glow {
+    width: 60px;
+    height: 60px;
+    border: 5px solid rgba(58, 134, 255, 0.1);
+    border-top: 5px solid var(--safety-blue);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    box-shadow: 0 0 15px rgba(58, 134, 255, 0.2);
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 9. Chatbot UI Styles (Revamped) */
+.chat-bubble {
+    position: fixed;
+    bottom: 120px; /* Stacked above SOS */
+    right: 35px;
+    width: 60px;
+    height: 60px;
+    background: var(--safety-blue);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(58, 134, 255, 0.4);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1000;
+}
+
+.chat-bubble:hover {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.chat-window {
+    position: fixed;
+    bottom: 200px;
+    right: 35px;
+    width: 360px;
+    max-height: 500px;
+    height: calc(100vh - 250px);
+    background: white;
+    border-radius: var(--radius-lg);
+    display: none;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    z-index: 1000;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+    animation: slideUp 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.chat-window.active {
+    display: flex;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.chat-header {
+    background: var(--primary-navy);
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-body {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.chat-message {
+    max-width: 80%;
+    padding: 10px 15px;
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.msg-bot {
+    align-self: flex-start;
+    background: white;
+    border: 1px solid #dee2e6;
+    border-bottom-left-radius: 2px;
+}
+
+.msg-user {
+    align-self: flex-end;
+    background: var(--safety-blue);
+    color: white;
+    border-bottom-right-radius: 2px;
+}
+
+.chat-footer {
+    padding: 15px;
+    background: white;
+    border-top: 1px solid #dee2e6;
+    display: flex;
+    gap: 10px;
+}
+
+.chat-footer input {
+    flex: 1;
+    border: 1px solid #dee2e6;
+    border-radius: 20px;
+    padding: 8px 15px;
+    font-size: 0.9rem;
+    outline: none;
+}
+
+.chat-footer button {
+    background: var(--safety-blue);
+    color: white;
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
